@@ -175,7 +175,7 @@ export function AddIdeaSheet({
               type="button"
               onClick={handleFetch}
               disabled={fetching || !url.trim()}
-              className="flex shrink-0 items-center justify-center rounded-2xl bg-[#f2ede4] px-4 text-foreground disabled:opacity-50"
+              className="flex shrink-0 items-center justify-center rounded-2xl bg-[#EEF2F7] px-4 text-foreground disabled:opacity-50"
               aria-label="Fetch details from link"
             >
               {fetching ? <Loader2 size={18} className="animate-spin" /> : <Link2 size={18} />}

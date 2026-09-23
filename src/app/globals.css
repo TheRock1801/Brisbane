@@ -2,17 +2,14 @@
 
 :root {
   --background: #fbf9f6;
-  --foreground: #23201c;
+  --foreground: #12263f;
   --surface: #ffffff;
-  --border-subtle: #ece7e0;
-  --accent: #ff5a5f;
-  --accent-foreground: #ffffff;
-  --muted: #7a7168;
-  --rocky: #e2725b;
-  --vince: #2e6e5e;
-  --maybe: #b8ab98;
-  --locked: #2e6e5e;
-  --booked: #c98a2c;
+  --border-subtle: #e3e8ee;
+  --accent: #f2b134;
+  --accent-foreground: #12263f;
+  --muted: #5c6b7c;
+  --rocky: #d9534f;
+  --vince: #167d89;
 }
 
 @theme inline {
@@ -25,19 +22,16 @@
   --color-muted: var(--muted);
   --color-rocky: var(--rocky);
   --color-vince: var(--vince);
-  --color-maybe: var(--maybe);
-  --color-locked: var(--locked);
-  --color-booked: var(--booked);
   --font-sans: var(--font-sans);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #17140f;
-    --foreground: #f3efe8;
-    --surface: #211d17;
-    --border-subtle: #332e26;
-    --muted: #a89d8e;
+    --background: #0b1a2c;
+    --foreground: #edf1f5;
+    --surface: #122840;
+    --border-subtle: #24405c;
+    --muted: #93a3b5;
   }
 }
 
@@ -65,4 +59,53 @@ body {
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+/* Loading screen: rugby ball hopping left-to-right and back underneath the poster. */
+@keyframes rugby-travel {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(160px);
+  }
+}
+
+@keyframes rugby-bounce {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  20% {
+    transform: translateY(-28px) rotate(100deg);
+  }
+  40% {
+    transform: translateY(0) rotate(180deg);
+  }
+  56% {
+    transform: translateY(-15px) rotate(250deg);
+  }
+  72% {
+    transform: translateY(0) rotate(305deg);
+  }
+  85% {
+    transform: translateY(-7px) rotate(340deg);
+  }
+  100% {
+    transform: translateY(0) rotate(360deg);
+  }
+}
+
+.rugby-travel {
+  animation: rugby-travel 2.4s ease-in-out infinite alternate;
+}
+
+.rugby-bounce {
+  animation: rugby-bounce 1.6s cubic-bezier(0.36, 0.05, 0.2, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rugby-travel,
+  .rugby-bounce {
+    animation: none;
+  }
 }

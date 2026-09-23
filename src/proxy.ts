@@ -18,7 +18,9 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/((?!login|api/auth/login|_next/static|_next/image|favicon.ico|icons|manifest.json).*)',
-  ],
+  // Excludes anything under /_next, the public login routes, and any path
+  // that looks like a static file (has a dot in it, e.g. brisbane-poster.png,
+  // favicon.ico) — public/ assets must never require a session, including
+  // when Next's own image optimizer fetches them internally.
+  matcher: ['/((?!login|api/auth/login|_next/static|_next/image|.*\\..*).*)'],
 };

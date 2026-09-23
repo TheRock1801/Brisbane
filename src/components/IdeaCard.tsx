@@ -12,7 +12,7 @@ export function IdeaCard({ idea }: { idea: IdeaWithState }) {
       href={`/idea/${idea.id}`}
       className="block overflow-hidden rounded-3xl border border-border-subtle bg-surface shadow-[0_1px_10px_-4px_rgba(0,0,0,0.1)] transition active:scale-[0.98]"
     >
-      <div className="relative aspect-[4/3] w-full bg-[#f2ede4]">
+      <div className="relative aspect-[4/3] w-full bg-[#EEF2F7]">
         {idea.image_url ? (
           <Image
             src={idea.image_url}

@@ -76,7 +76,7 @@ function Slot({
             href={pass.file_url}
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-1 rounded-full bg-[#f2ede4] px-3 py-1.5 text-xs font-semibold"
+            className="flex items-center gap-1 rounded-full bg-[#EEF2F7] px-3 py-1.5 text-xs font-semibold"
           >
             <FileText size={13} /> View
           </a>

@@ -24,11 +24,11 @@ function popupHtml(idea: IdeaWithState): string {
     <div style="width:200px;font-family:inherit">
       ${idea.image_url ? `<div style="width:100%;height:96px;border-radius:12px;overflow:hidden;margin-bottom:8px"><img src="${escapeHtml(idea.image_url)}" style="width:100%;height:100%;object-fit:cover" /></div>` : ''}
       <p style="font-weight:600;font-size:14px;margin:0 0 2px">${escapeHtml(idea.name)}</p>
-      <p style="font-size:12px;color:#7a7168;margin:0 0 6px">
+      <p style="font-size:12px;color:var(--muted);margin:0 0 6px">
         ${escapeHtml(DAY_LABELS[idea.day])}${time ? ` · ${time}` : ''}
       </p>
       ${stars ? `<p style="font-size:12px;margin:0 0 6px">${escapeHtml(stars)}</p>` : ''}
-      <a href="/idea/${idea.id}" style="font-size:12px;font-weight:600;color:#ff5a5f;text-decoration:none">View details →</a>
+      <a href="/idea/${idea.id}" style="font-size:12px;font-weight:600;color:var(--accent);text-decoration:none">View details →</a>
     </div>
   `;
 }
@@ -94,8 +94,8 @@ export function MapView({
       const isActual = Boolean(idea.itinerary);
 
       let color: string | null = null;
-      if (layers.planning && !isStarred) color = '#a89d8e';
-      if (layers.starred && isStarred && !isActual) color = '#ff5a5f';
+      if (layers.planning && !isStarred) color = 'var(--muted)';
+      if (layers.starred && isStarred && !isActual) color = 'var(--accent)';
       if (layers.actual && isActual) color = DAY_COLORS[idea.day];
       if (!color) continue;
 
@@ -109,13 +109,13 @@ export function MapView({
 
     for (const stay of accommodation) {
       if (stay.latitude == null || stay.longitude == null) continue;
-      const el = makePin('#23201c', 18);
+      const el = makePin('var(--foreground)', 18);
       el.style.borderRadius = '6px';
       const marker = new mapboxgl.Marker({ element: el })
         .setLngLat([stay.longitude, stay.latitude])
         .setPopup(
           new mapboxgl.Popup({ offset: 12 }).setHTML(
-            `<div style="font-family:inherit"><p style="font-weight:600;font-size:14px;margin:0">${escapeHtml(stay.name)}</p><p style="font-size:12px;color:#7a7168;margin:2px 0 0">${escapeHtml(stay.address ?? '')}</p></div>`
+            `<div style="font-family:inherit"><p style="font-weight:600;font-size:14px;margin:0">${escapeHtml(stay.name)}</p><p style="font-size:12px;color:var(--muted);margin:2px 0 0">${escapeHtml(stay.address ?? '')}</p></div>`
           )
         )
         .addTo(map.current);

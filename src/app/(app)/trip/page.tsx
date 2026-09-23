@@ -23,7 +23,7 @@ export default function TripHubPage() {
             href={href}
             className="flex items-center gap-3.5 rounded-2xl border border-border-subtle bg-surface p-4 active:scale-[0.98]"
           >
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#f7f4ee]">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#EEF2F7]">
               <Icon size={20} strokeWidth={1.8} />
             </span>
             <span className="min-w-0 flex-1">

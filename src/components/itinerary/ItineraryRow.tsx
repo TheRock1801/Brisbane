@@ -50,7 +50,7 @@ export function ItineraryRow({
       </button>
 
       <button type="button" onClick={onEdit} className="flex min-w-0 flex-1 items-center gap-3 text-left">
-        <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-[#f2ede4]">
+        <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-[#EEF2F7]">
           {item.idea.image_url ? (
             <Image src={item.idea.image_url} alt="" fill unoptimized className="object-cover" />
           ) : (

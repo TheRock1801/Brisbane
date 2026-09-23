@@ -6,8 +6,8 @@ import type { Profile, UserId } from '@/lib/types';
  * every page for a table that never changes.
  */
 export const PROFILES: Record<UserId, Profile> = {
-  rocky: { id: 'rocky', display_name: 'Rocky', avatar_color: '#e2725b' },
-  vince: { id: 'vince', display_name: 'Vince', avatar_color: '#2e6e5e' },
+  rocky: { id: 'rocky', display_name: 'Rocky', avatar_color: '#d9534f' },
+  vince: { id: 'vince', display_name: 'Vince', avatar_color: '#167d89' },
 };
 
 export function otherUser(userId: UserId): UserId {

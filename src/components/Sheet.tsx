@@ -33,7 +33,7 @@ export function Sheet({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full p-1.5 text-muted hover:bg-[#f2ede4]"
+            className="rounded-full p-1.5 text-muted hover:bg-[#EEF2F7]"
             aria-label="Close"
           >
             <X size={20} />

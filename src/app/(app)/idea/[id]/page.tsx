@@ -32,7 +32,7 @@ export default async function IdeaDetailPage(props: PageProps<'/idea/[id]'>) {
     <div>
       <RealtimeRefresher tables={['ideas', 'stars', 'comments', 'itinerary_items']} />
 
-      <div className="relative aspect-[4/3] w-full bg-[#f2ede4]">
+      <div className="relative aspect-[4/3] w-full bg-[#EEF2F7]">
         {idea.image_url ? (
           <Image
             src={idea.image_url}
@@ -76,7 +76,7 @@ export default async function IdeaDetailPage(props: PageProps<'/idea/[id]'>) {
         )}
 
         {item && (
-          <div className="mt-3 flex flex-wrap items-center gap-2 rounded-2xl bg-[#f7f4ee] px-3.5 py-3">
+          <div className="mt-3 flex flex-wrap items-center gap-2 rounded-2xl bg-[#EEF2F7] px-3.5 py-3">
             <StatusBadge status={item.status} />
             <span className="text-sm text-muted">{DAY_LABELS[item.day]}</span>
             {item.start_time && (

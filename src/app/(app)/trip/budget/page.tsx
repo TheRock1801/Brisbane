@@ -15,7 +15,7 @@ export default async function BudgetPage() {
       <TripSubHeader title="Budget" />
 
       <div className="px-4">
-        <div className="rounded-3xl bg-[#f7f4ee] p-5">
+        <div className="rounded-3xl bg-[#EEF2F7] p-5">
           <p className="text-xs font-medium uppercase tracking-wide text-muted">Total trip spend</p>
           <p className="mt-1 text-3xl font-semibold">${summary.total.toFixed(2)}</p>
 

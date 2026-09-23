@@ -14,7 +14,7 @@ function AccommodationCard({ stay, onEdit }: { stay: Accommodation; onEdit: () =
       onClick={onEdit}
       className="block w-full overflow-hidden rounded-3xl border border-border-subtle bg-surface text-left active:scale-[0.98]"
     >
-      <div className="relative aspect-[16/9] w-full bg-[#f2ede4]">
+      <div className="relative aspect-[16/9] w-full bg-[#EEF2F7]">
         {stay.image_url ? (
           <Image src={stay.image_url} alt={stay.name} fill unoptimized className="object-cover" />
         ) : (

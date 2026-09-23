@@ -2,9 +2,9 @@ import type { ItineraryStatus } from '@/lib/types';
 import { cn } from '@/lib/cn';
 
 const STYLES: Record<ItineraryStatus, string> = {
-  maybe: 'bg-[#f2ede4] text-[#8a7c68]',
-  locked_in: 'bg-[#e7f0ec] text-[#2e6e5e]',
-  booked: 'bg-[#fbf0dd] text-[#a3711f]',
+  maybe: 'bg-[#EEF2F7] text-[#5c6b7c]',
+  locked_in: 'bg-[#E3F3F1] text-[#167d89]',
+  booked: 'bg-[#FCEAE3] text-[#c4453f]',
 };
 
 const LABELS: Record<ItineraryStatus, string> = {

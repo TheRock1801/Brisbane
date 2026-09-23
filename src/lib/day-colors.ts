@@ -1,8 +1,8 @@
 import type { Day } from '@/lib/types';
 
 export const DAY_COLORS: Record<Day, string> = {
-  friday: '#e3a857',
-  saturday: '#5b8c7b',
-  sunday: '#c1666b',
-  monday: '#6c7a89',
+  friday: '#167d89',
+  saturday: '#d9534f',
+  sunday: '#2c4b7c',
+  monday: '#e0932f',
 };
