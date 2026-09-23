@@ -7,7 +7,9 @@ const SELECT_WITH_STATE = '*, stars(user_id), comments(count), itinerary_items(*
 type RawIdeaRow = Idea & {
   stars: { user_id: UserId }[];
   comments: { count: number }[];
-  itinerary_items: ItineraryItem[];
+  // itinerary_items.idea_id is unique, so PostgREST embeds this as a to-one
+  // relationship (a single object or null), not an array.
+  itinerary_items: ItineraryItem | null;
 };
 
 function toIdeaWithState(row: RawIdeaRow): IdeaWithState {
@@ -16,7 +18,7 @@ function toIdeaWithState(row: RawIdeaRow): IdeaWithState {
     ...idea,
     stars: stars.map((s) => s.user_id),
     comment_count: comments[0]?.count ?? 0,
-    itinerary: itinerary_items[0] ?? null,
+    itinerary: itinerary_items,
   };
 }
 

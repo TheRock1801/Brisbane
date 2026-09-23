@@ -164,21 +164,35 @@ alter table boarding_passes enable row level security;
 alter table accommodation enable row level security;
 alter table expenses enable row level security;
 
-do $$
-declare
-  t text;
-begin
-  for t in select unnest(array[
-    'profiles', 'trips', 'ideas', 'stars', 'comments', 'itinerary_items',
-    'flights', 'boarding_passes', 'accommodation', 'expenses'
-  ])
-  loop
-    execute format(
-      'drop policy if exists %I on %I; create policy %I on %I for select using (true);',
-      t || '_read', t, t || '_read', t
-    );
-  end loop;
-end $$;
+drop policy if exists profiles_read on profiles;
+create policy profiles_read on profiles for select using (true);
+
+drop policy if exists trips_read on trips;
+create policy trips_read on trips for select using (true);
+
+drop policy if exists ideas_read on ideas;
+create policy ideas_read on ideas for select using (true);
+
+drop policy if exists stars_read on stars;
+create policy stars_read on stars for select using (true);
+
+drop policy if exists comments_read on comments;
+create policy comments_read on comments for select using (true);
+
+drop policy if exists itinerary_items_read on itinerary_items;
+create policy itinerary_items_read on itinerary_items for select using (true);
+
+drop policy if exists flights_read on flights;
+create policy flights_read on flights for select using (true);
+
+drop policy if exists boarding_passes_read on boarding_passes;
+create policy boarding_passes_read on boarding_passes for select using (true);
+
+drop policy if exists accommodation_read on accommodation;
+create policy accommodation_read on accommodation for select using (true);
+
+drop policy if exists expenses_read on expenses;
+create policy expenses_read on expenses for select using (true);
 
 -- ---------------------------------------------------------------------------
 -- Storage: one public bucket for idea photos, accommodation images, and
