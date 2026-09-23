@@ -1,7 +1,5 @@
 const ERROR_MESSAGES: Record<string, string> = {
-  wrong_password: "That's not it — try again.",
   pick_user: 'Tap your name below.',
-  not_configured: "The app isn't set up yet — TRIP_PASSWORD is missing on the server.",
 };
 
 export default async function LoginPage(props: PageProps<'/login'>) {
@@ -24,19 +22,6 @@ export default async function LoginPage(props: PageProps<'/login'>) {
           className="rounded-3xl border border-border-subtle bg-surface p-6 shadow-[0_2px_24px_-8px_rgba(0,0,0,0.12)]"
         >
           <input type="hidden" name="next" value={next} />
-
-          <label className="mb-2 block text-sm font-medium text-muted" htmlFor="password">
-            Trip password
-          </label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            required
-            autoFocus
-            placeholder="••••••••"
-            className="mb-4 w-full rounded-2xl border border-border-subtle bg-background px-4 py-3.5 text-base outline-none focus:border-accent"
-          />
 
           {error && (
             <p className="mb-4 rounded-xl bg-red-50 px-3 py-2 text-sm text-red-600">{error}</p>

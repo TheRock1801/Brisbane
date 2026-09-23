@@ -6,7 +6,7 @@
 
 **Path:** `C:/Users/rockyj/brisbane-weekend-planner`
 **GitHub:** https://github.com/TheRock1801/Brisbane.git
-**Deploy:** Vercel (not yet connected as of scaffolding — see below)
+**Deploy:** Vercel, live at https://brisbane-chi.vercel.app/, auto-deploys on push to `main`
 **Dev server:** `npm run dev`
 
 **Stack:** Next.js 16 (App Router, Turbopack) + TypeScript + Tailwind CSS v4 | Supabase (Postgres + Storage + Realtime) | Mapbox GL JS | dnd-kit | Vercel
@@ -15,7 +15,7 @@ Next.js 16 has real breaking changes from earlier versions — `middleware.ts` i
 
 ## Auth — deliberately simple
 
-No Supabase Auth, no per-user accounts with passwords. `TRIP_PASSWORD` (env var) gates the whole app; after entering it you pick "Rocky" or "Vince" (`src/app/login/page.tsx` — a plain HTML form, no client JS needed). The choice is signed into an HMAC cookie (`src/lib/auth/session.ts`, secret is `SESSION_SECRET`) and read via `getSession()`/`useCurrentUser()` (`src/components/CurrentUserContext.tsx`) everywhere identity is needed. This was an explicit choice over full Supabase email/password accounts — see the two of you as the only ever users, no password-reset flow needed.
+No Supabase Auth, no per-user accounts, no password at all (there was briefly a shared `TRIP_PASSWORD` gate — removed 2026-09-23 at Rocky's request; the route/page still exist but only check which name was tapped). `/login` (`src/app/login/page.tsx` — a plain HTML form, no client JS needed) is just "Rocky" or "Vince" buttons; picking one is the whole login. The choice is signed into an HMAC cookie (`src/lib/auth/session.ts`, secret is `SESSION_SECRET`) and read via `getSession()`/`useCurrentUser()` (`src/components/CurrentUserContext.tsx`) everywhere identity is needed — the cookie is what prevents casually reassigning who a star/comment/expense belongs to, not a barrier to entering the app at all. There's no access control left on this app beyond "know the URL" — acceptable for a private trip planner two friends use, but don't reuse this pattern for anything more sensitive.
 
 `src/proxy.ts` does a **presence-only** cookie check (Edge runtime can't run the HMAC verify — Node's `crypto` isn't available there) and bounces straight to `/login` if the cookie is missing. The `(app)` route group's `layout.tsx` does the real signature verification server-side and is the actual authority.
 
@@ -47,7 +47,7 @@ Every function in `src/lib/actions/*.ts` is a `'use server'` Server Action and c
 
 ## File uploads
 
-One public Supabase Storage bucket, `trip-files` (created by `schema.sql`). Public because the app itself is gated by the shared password and paths are random UUIDs — simplest option for a two-person private app, not a defensible security boundary if that threat model ever changes. `src/app/api/upload/route.ts` is the only write path (auth-checked, 15MB cap, image/PDF only); `TRIP_FILES_BUCKET` constant lives in `src/lib/supabase/server.ts`.
+One public Supabase Storage bucket, `trip-files` (created by `schema.sql`). Public, with object paths as random UUIDs and no password gate at all in front of the app now — simplest option for a two-person private app, not a defensible security boundary if that threat model ever changes. `src/app/api/upload/route.ts` is the only write path (auth-checked, 15MB cap, image/PDF only); `TRIP_FILES_BUCKET` constant lives in `src/lib/supabase/server.ts`.
 
 ## Local dev on this machine needs `NODE_TLS_REJECT_UNAUTHORIZED=0`
 
@@ -57,6 +57,6 @@ Rocky's network/machine does TLS interception (confirmed via curl schannel error
 
 `itinerary_items.idea_id` is `unique`, so PostgREST embeds `ideas → itinerary_items` as a **to-one relationship** (a single object or `null`), not an array — even though it reads like a reverse one-to-many embed. `src/lib/data/ideas.ts`'s `toIdeaWithState()` originally assumed an array (`itinerary_items[0] ?? null`) and crashed Home/Planning/Map with `Cannot read properties of null (reading '0')` the moment a real Supabase project was wired in (never caught locally, since without real data every page threw the "Supabase not configured" error first). Confirmed the actual embed shape by querying directly with the service-role key before trusting the fix. If any other table gains a unique FK later, expect the same thing.
 
-## Verified working (2026-09-23, against the real Supabase project + real Mapbox token)
+## Verified working (2026-09-23, live on Vercel against the real Supabase project + real Mapbox token)
 
-Login (real `TRIP_PASSWORD`), Home, Planning, Actual, Map (layer-toggle UI renders, meaning the token check passes — actual tile rendering needs a real browser, not verified via curl), idea detail, Trip hub, Flights, Accommodation, Budget (balance math confirmed correct against seed data) all render real Supabase data end-to-end. Verified via curl against a local dev server with a real session cookie, not a browser — so anything client-JS-only (drag-and-drop, the Add Idea sheet, comment editing, file upload) still hasn't been clicked through by a human. Not yet deployed to Vercel — `NEXT_PUBLIC_SUPABASE_ANON_KEY`/`SUPABASE_SERVICE_ROLE_KEY`/`NEXT_PUBLIC_MAPBOX_TOKEN`/`TRIP_PASSWORD`/`SESSION_SECRET` still need to be set in the Vercel project's env vars before that'll work (same values as `.env.local`, which is gitignored and was never committed).
+Login, Home, Planning, Actual, Map (layer-toggle UI renders, meaning the token check passes — actual tile rendering needs a real browser, not verified via curl), idea detail, Trip hub, Flights, Accommodation, Budget (balance math confirmed correct against seed data) all render real Supabase data end-to-end at https://brisbane-chi.vercel.app/. Verified via curl with a real session cookie against both a local dev server and the live Vercel deployment, not a browser — so anything client-JS-only (drag-and-drop, the Add Idea sheet, comment editing, file upload) still hasn't been clicked through by a human on an actual phone.

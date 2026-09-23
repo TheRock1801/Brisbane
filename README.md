@@ -8,7 +8,6 @@ Private trip planner for Rocky and Vince's Brisbane Labour Weekend trip (23–26
 2. Copy `.env.local.example` → `.env.local` (already done in dev; fill in the blanks):
    - Supabase project URL/anon key/service role key (Project Settings → API)
    - A Mapbox public token (account.mapbox.com/access-tokens)
-   - `TRIP_PASSWORD` — whatever password should gate the app
    - `SESSION_SECRET` — random string (`node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`)
 3. In the Supabase SQL editor, run `supabase/schema.sql` then `supabase/seed.sql` (once each — see comments in those files; this project has no migration runner, so any future schema change also gets pasted in manually).
 4. `npm run dev` → http://localhost:3000
