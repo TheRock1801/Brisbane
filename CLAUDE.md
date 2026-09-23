@@ -49,9 +49,14 @@ Every function in `src/lib/actions/*.ts` is a `'use server'` Server Action and c
 
 One public Supabase Storage bucket, `trip-files` (created by `schema.sql`). Public because the app itself is gated by the shared password and paths are random UUIDs — simplest option for a two-person private app, not a defensible security boundary if that threat model ever changes. `src/app/api/upload/route.ts` is the only write path (auth-checked, 15MB cap, image/PDF only); `TRIP_FILES_BUCKET` constant lives in `src/lib/supabase/server.ts`.
 
-## Not yet done / needs Rocky
+## Local dev on this machine needs `NODE_TLS_REJECT_UNAUTHORIZED=0`
 
-- **Supabase keys, Mapbox token, TRIP_PASSWORD, SESSION_SECRET** aren't set in `.env.local` yet (`NEXT_PUBLIC_SUPABASE_URL` is filled in, the rest are blank placeholders) — nothing that touches the database or the map can be exercised until these land.
-- `supabase/schema.sql` and `supabase/seed.sql` haven't been run against the real Supabase project yet.
-- Not deployed to Vercel yet — repo has a `git remote` set to `https://github.com/TheRock1801/Brisbane.git` but nothing's been pushed.
-- Everything above was built and typechecked (`npm run build`, `npm run lint`) locally; the auth/redirect/error-boundary flow was smoke-tested via curl against a local dev server, but no page that touches real Supabase data or the real map has been exercised yet, since no credentials exist yet.
+Rocky's network/machine does TLS interception (confirmed via curl schannel error `CRYPT_E_NO_REVOCATION_CHECK` and Node's `UNABLE_TO_VERIFY_LEAF_SIGNATURE` against `*.supabase.co` and `api.mapbox.com` both) — Node can't verify the intercepted cert chain, so every outbound HTTPS call from `next dev` fails with a generic `TypeError: fetch failed` after a long hang, not a clear TLS error. Same class of issue already noted in the Harrows-dashboard project. **Local dev only**, run as `NODE_TLS_REJECT_UNAUTHORIZED=0 npm run dev` — never set this in code, `next.config.ts`, or anything committed, and it's irrelevant on Vercel (their network doesn't intercept TLS). `curl` needs `-k` for the same reason when testing from this shell.
+
+## PostgREST embed gotcha: to-one vs to-many
+
+`itinerary_items.idea_id` is `unique`, so PostgREST embeds `ideas → itinerary_items` as a **to-one relationship** (a single object or `null`), not an array — even though it reads like a reverse one-to-many embed. `src/lib/data/ideas.ts`'s `toIdeaWithState()` originally assumed an array (`itinerary_items[0] ?? null`) and crashed Home/Planning/Map with `Cannot read properties of null (reading '0')` the moment a real Supabase project was wired in (never caught locally, since without real data every page threw the "Supabase not configured" error first). Confirmed the actual embed shape by querying directly with the service-role key before trusting the fix. If any other table gains a unique FK later, expect the same thing.
+
+## Verified working (2026-09-23, against the real Supabase project + real Mapbox token)
+
+Login (real `TRIP_PASSWORD`), Home, Planning, Actual, Map (layer-toggle UI renders, meaning the token check passes — actual tile rendering needs a real browser, not verified via curl), idea detail, Trip hub, Flights, Accommodation, Budget (balance math confirmed correct against seed data) all render real Supabase data end-to-end. Verified via curl against a local dev server with a real session cookie, not a browser — so anything client-JS-only (drag-and-drop, the Add Idea sheet, comment editing, file upload) still hasn't been clicked through by a human. Not yet deployed to Vercel — `NEXT_PUBLIC_SUPABASE_ANON_KEY`/`SUPABASE_SERVICE_ROLE_KEY`/`NEXT_PUBLIC_MAPBOX_TOKEN`/`TRIP_PASSWORD`/`SESSION_SECRET` still need to be set in the Vercel project's env vars before that'll work (same values as `.env.local`, which is gitignored and was never committed).
