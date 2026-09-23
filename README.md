@@ -1,36 +1,20 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Brisbane Weekend Planner
 
-## Getting Started
+Private trip planner for Rocky and Vince's Brisbane Labour Weekend trip (23–26 Oct 2026).
 
-First, run the development server:
+## Setup
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. `npm install`
+2. Copy `.env.local.example` → `.env.local` (already done in dev; fill in the blanks):
+   - Supabase project URL/anon key/service role key (Project Settings → API)
+   - A Mapbox public token (account.mapbox.com/access-tokens)
+   - `TRIP_PASSWORD` — whatever password should gate the app
+   - `SESSION_SECRET` — random string (`node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`)
+3. In the Supabase SQL editor, run `supabase/schema.sql` then `supabase/seed.sql` (once each — see comments in those files; this project has no migration runner, so any future schema change also gets pasted in manually).
+4. `npm run dev` → http://localhost:3000
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deploying
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Push to `main` on `https://github.com/TheRock1801/Brisbane.git` and import the repo into Vercel. Set the same env vars from `.env.local` in the Vercel project settings (Production + Preview).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See `CLAUDE.md` for the full architecture writeup.

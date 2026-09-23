@@ -1,26 +1,68 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fbf9f6;
+  --foreground: #23201c;
+  --surface: #ffffff;
+  --border-subtle: #ece7e0;
+  --accent: #ff5a5f;
+  --accent-foreground: #ffffff;
+  --muted: #7a7168;
+  --rocky: #e2725b;
+  --vince: #2e6e5e;
+  --maybe: #b8ab98;
+  --locked: #2e6e5e;
+  --booked: #c98a2c;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-border-subtle: var(--border-subtle);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-rocky: var(--rocky);
+  --color-vince: var(--vince);
+  --color-maybe: var(--maybe);
+  --color-locked: var(--locked);
+  --color-booked: var(--booked);
+  --font-sans: var(--font-sans);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #17140f;
+    --foreground: #f3efe8;
+    --surface: #211d17;
+    --border-subtle: #332e26;
+    --muted: #a89d8e;
   }
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  overscroll-behavior-y: none;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
