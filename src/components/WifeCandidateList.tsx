@@ -1,18 +1,27 @@
 'use client';
 
 import { useState } from 'react';
-import { Heart, Phone, Plus, User } from 'lucide-react';
+import { ExternalLink, Heart, Phone, Plus, User } from 'lucide-react';
 import { WifeCandidateSheet } from '@/components/WifeCandidateSheet';
 import { formButtonPrimary } from '@/lib/form-styles';
+import { wifeTotal } from '@/lib/wife-score';
 import type { WifeCandidate } from '@/lib/types';
 
-function RankingBadge({ ranking }: { ranking: number | null }) {
-  if (ranking == null) return null;
+function TotalBadge({ total }: { total: number | null }) {
+  if (total == null) return null;
   return (
     <span className="flex shrink-0 items-center gap-1 rounded-full bg-[#FCEAE3] px-2.5 py-1 text-xs font-semibold text-[#c4453f]">
-      <Heart size={12} className="fill-current" /> {ranking}/10
+      <Heart size={12} className="fill-current" /> {total}/10
     </span>
   );
+}
+
+function scoreLine(candidate: WifeCandidate): string | null {
+  const parts: string[] = [];
+  if (candidate.looks != null) parts.push(`Looks ${candidate.looks}`);
+  if (candidate.wife_material != null) parts.push(`Wife material ${candidate.wife_material}`);
+  if (candidate.personality != null) parts.push(`Personality ${candidate.personality}`);
+  return parts.length ? parts.join(' · ') : null;
 }
 
 function CandidateCard({ candidate, onEdit }: { candidate: WifeCandidate; onEdit: () => void }) {
@@ -27,14 +36,26 @@ function CandidateCard({ candidate, onEdit }: { candidate: WifeCandidate; onEdit
       <span className="min-w-0 flex-1">
         <span className="flex items-center justify-between gap-2">
           <span className="truncate text-[15px] font-semibold">{candidate.name}</span>
-          <RankingBadge ranking={candidate.ranking} />
+          <TotalBadge total={wifeTotal(candidate)} />
         </span>
         <span className="mt-0.5 block text-sm text-muted">
           {candidate.age != null ? `${candidate.age} years old` : null}
           {candidate.age != null && candidate.phone ? ' · ' : null}
           {candidate.phone}
         </span>
+        {scoreLine(candidate) && <span className="mt-1 block text-xs text-muted">{scoreLine(candidate)}</span>}
         {candidate.notes && <span className="mt-1.5 block text-sm">{candidate.notes}</span>}
+        {candidate.connect_url && (
+          <a
+            href={candidate.connect_url}
+            target="_blank"
+            rel="noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="mt-2 flex items-center gap-1 text-xs font-semibold text-accent"
+          >
+            <ExternalLink size={12} /> Connect
+          </a>
+        )}
       </span>
     </button>
   );

@@ -11,7 +11,10 @@ const schema = z.object({
   name: z.string().trim().min(1).max(200),
   age: z.number().int().min(0).max(130).optional().nullable(),
   phone: z.string().trim().max(40).optional().nullable(),
-  ranking: z.number().int().min(1).max(10).optional().nullable(),
+  connect_url: z.string().url().optional().nullable(),
+  looks: z.number().int().min(1).max(10).optional().nullable(),
+  wife_material: z.number().int().min(1).max(10).optional().nullable(),
+  personality: z.number().int().min(1).max(10).optional().nullable(),
   notes: z.string().trim().max(2000).optional().nullable(),
 });
 

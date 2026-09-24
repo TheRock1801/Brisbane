@@ -142,7 +142,10 @@ create table if not exists wife_candidates (
   name text not null,
   age integer check (age is null or (age >= 0 and age <= 130)),
   phone text,
-  ranking integer check (ranking is null or (ranking >= 1 and ranking <= 10)),
+  connect_url text,
+  looks integer check (looks is null or (looks >= 1 and looks <= 10)),
+  wife_material integer check (wife_material is null or (wife_material >= 1 and wife_material <= 10)),
+  personality integer check (personality is null or (personality >= 1 and personality <= 10)),
   notes text,
   created_by text not null references profiles(id),
   created_at timestamptz not null default now()

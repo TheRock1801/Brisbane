@@ -185,7 +185,10 @@ export interface WifeCandidate {
   name: string;
   age: number | null;
   phone: string | null;
-  ranking: number | null;
+  connect_url: string | null;
+  looks: number | null;
+  wife_material: number | null;
+  personality: number | null;
   notes: string | null;
   created_by: UserId;
   created_at: string;
