@@ -4,9 +4,10 @@ import { z } from 'zod';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { requireUser } from '@/lib/actions/require-user';
 import { revalidatePath } from 'next/cache';
+import { uuidLike } from '@/lib/validation';
 
 const schema = z.object({
-  trip_id: z.string().uuid(),
+  trip_id: uuidLike,
   name: z.string().trim().min(1).max(200),
   address: z.string().trim().max(300).optional().nullable(),
   latitude: z.number().min(-90).max(90).optional().nullable(),

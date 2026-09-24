@@ -4,9 +4,10 @@ import { z } from 'zod';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { requireUser } from '@/lib/actions/require-user';
 import { revalidatePath } from 'next/cache';
+import { uuidLike } from '@/lib/validation';
 
 const flightSchema = z.object({
-  trip_id: z.string().uuid(),
+  trip_id: uuidLike,
   airline: z.string().trim().min(1).max(120),
   flight_number: z.string().trim().min(1).max(20),
   departure_airport: z.string().trim().min(3).max(10),

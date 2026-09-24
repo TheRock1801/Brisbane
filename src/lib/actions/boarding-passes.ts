@@ -4,10 +4,11 @@ import { z } from 'zod';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import { requireUser } from '@/lib/actions/require-user';
 import { revalidatePath } from 'next/cache';
+import { uuidLike } from '@/lib/validation';
 
 const schema = z.object({
-  trip_id: z.string().uuid(),
-  flight_id: z.string().uuid().optional().nullable(),
+  trip_id: uuidLike,
+  flight_id: uuidLike.optional().nullable(),
   leg: z.enum(['outbound', 'return']),
   file_url: z.string().url(),
   file_type: z.enum(['image', 'pdf']),

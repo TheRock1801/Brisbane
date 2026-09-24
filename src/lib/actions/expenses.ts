@@ -5,9 +5,10 @@ import { supabaseAdmin } from '@/lib/supabase/server';
 import { requireUser } from '@/lib/actions/require-user';
 import { revalidatePath } from 'next/cache';
 import { EXPENSE_CATEGORIES, SPLIT_TYPES, EXPENSE_STATUSES } from '@/lib/types';
+import { uuidLike } from '@/lib/validation';
 
 const schema = z.object({
-  trip_id: z.string().uuid(),
+  trip_id: uuidLike,
   name: z.string().trim().min(1).max(200),
   category: z.enum(EXPENSE_CATEGORIES as [string, ...string[]]).default('other'),
   amount: z.number().positive().max(1_000_000),

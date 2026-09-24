@@ -5,9 +5,10 @@ import { supabaseAdmin } from '@/lib/supabase/server';
 import { requireUser } from '@/lib/actions/require-user';
 import { revalidateTripViews } from '@/lib/actions/revalidate';
 import { CATEGORIES, DAYS } from '@/lib/types';
+import { uuidLike } from '@/lib/validation';
 
 const ideaSchema = z.object({
-  trip_id: z.string().uuid(),
+  trip_id: uuidLike,
   day: z.enum(DAYS as [string, ...string[]]),
   name: z.string().trim().min(1).max(200),
   description: z.string().trim().max(2000).optional().nullable(),
