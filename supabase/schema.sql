@@ -133,6 +133,23 @@ create table if not exists accommodation (
   created_at timestamptz not null default now()
 );
 
+-- "Find Vince a Wife" — a running list of people met on the trip, not tied to
+-- any single idea/day, so it gets its own table rather than piggybacking on
+-- ideas/comments.
+create table if not exists wife_candidates (
+  id uuid primary key default gen_random_uuid(),
+  trip_id uuid not null references trips(id) on delete cascade,
+  name text not null,
+  age integer check (age is null or (age >= 0 and age <= 130)),
+  phone text,
+  ranking integer check (ranking is null or (ranking >= 1 and ranking <= 10)),
+  notes text,
+  created_by text not null references profiles(id),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists wife_candidates_trip_idx on wife_candidates (trip_id, created_at);
+
 create table if not exists expenses (
   id uuid primary key default gen_random_uuid(),
   trip_id uuid not null references trips(id) on delete cascade,
@@ -163,6 +180,7 @@ alter table flights enable row level security;
 alter table boarding_passes enable row level security;
 alter table accommodation enable row level security;
 alter table expenses enable row level security;
+alter table wife_candidates enable row level security;
 
 drop policy if exists profiles_read on profiles;
 create policy profiles_read on profiles for select using (true);
@@ -193,6 +211,9 @@ create policy accommodation_read on accommodation for select using (true);
 
 drop policy if exists expenses_read on expenses;
 create policy expenses_read on expenses for select using (true);
+
+drop policy if exists wife_candidates_read on wife_candidates;
+create policy wife_candidates_read on wife_candidates for select using (true);
 
 -- ---------------------------------------------------------------------------
 -- Storage: one public bucket for idea photos, accommodation images, and

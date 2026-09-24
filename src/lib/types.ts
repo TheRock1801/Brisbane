@@ -179,6 +179,18 @@ export interface Expense {
   created_at: string;
 }
 
+export interface WifeCandidate {
+  id: string;
+  trip_id: string;
+  name: string;
+  age: number | null;
+  phone: string | null;
+  ranking: number | null;
+  notes: string | null;
+  created_by: UserId;
+  created_at: string;
+}
+
 /** An idea joined with its derived star/itinerary state — the shape most UI reads. */
 export interface IdeaWithState extends Idea {
   stars: UserId[];

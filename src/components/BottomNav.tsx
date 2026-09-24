@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Lightbulb, CalendarCheck, MapPin, Briefcase } from 'lucide-react';
+import { Home, Lightbulb, CalendarCheck, MapPin, Briefcase, Heart } from 'lucide-react';
 import { cn } from '@/lib/cn';
 
 const TABS = [
@@ -11,6 +11,7 @@ const TABS = [
   { href: '/actual', label: 'Actual', icon: CalendarCheck },
   { href: '/map', label: 'Map', icon: MapPin },
   { href: '/trip', label: 'Trip', icon: Briefcase },
+  { href: '/wife', label: 'Wife', icon: Heart },
 ];
 
 export function BottomNav() {
